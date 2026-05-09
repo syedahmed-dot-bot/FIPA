@@ -1,6 +1,12 @@
 .env
+
 .__pycache__/
+
 *.pyc
-backend/data/
+
 .venv/
+
 node_modules/
+
+backend/data/chroma/*
+!backend/data/chroma/.gitkeep
