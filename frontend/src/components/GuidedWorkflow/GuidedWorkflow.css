@@ -1,0 +1,179 @@
+.guided-workflow {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--off-white);
+}
+
+.workflow-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.workflow-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.back-btn {
+  background: none;
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  transition: var(--transition);
+}
+
+.back-btn:hover {
+  background: var(--light-gray);
+}
+
+.chatbot-btn {
+  background: var(--off-white);
+  color: var(--mid-gray);
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  transition: var(--transition);
+}
+
+.chatbot-btn:hover {
+  background: var(--light-gray);
+  color: var(--dark);
+}
+
+.workflow-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.prompt-list {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+
+.prompt-list h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mid-gray);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.prompt-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  background: var(--off-white);
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  font-size: 0.95rem;
+  color: var(--dark);
+  transition: var(--transition);
+}
+
+.prompt-btn:hover {
+  background: var(--light-gray);
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.prompt-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.loading {
+  color: var(--mid-gray);
+  font-size: 0.95rem;
+  padding: 20px;
+  text-align: center;
+}
+
+.confidence-score {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.confidence-score.high {
+  background: #d4edda;
+  color: var(--success);
+}
+
+.confidence-score.medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.confidence-score.low {
+  background: #f8d7da;
+  color: var(--danger);
+}
+
+.confidence-warning {
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.response-display {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+
+.response-display h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mid-gray);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.response-content p {
+  font-size: 0.95rem;
+  color: var(--dark);
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .workflow-header {
+    padding: 16px 20px;
+  }
+  .workflow-body {
+    padding: 20px 16px;
+  }
+}

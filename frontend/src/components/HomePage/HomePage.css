@@ -1,0 +1,122 @@
+.homepage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: var(--off-white);
+}
+
+.homepage-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.homepage-header h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.homepage-header p {
+  font-size: 1.1rem;
+  color: var(--mid-gray);
+  font-weight: 400;
+}
+
+.domain-cards-container {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.domain-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  width: 320px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.domain-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-light);
+}
+
+.domain-card.drilling::before {
+  background: var(--primary);
+}
+
+.domain-card.refinery::before {
+  background: var(--accent);
+}
+
+.domain-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-light);
+}
+
+.domain-card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.domain-card p {
+  font-size: 0.95rem;
+  color: var(--mid-gray);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.card-arrow {
+  font-size: 1.5rem;
+  color: var(--primary-light);
+  font-weight: bold;
+}
+
+.chatbot-direct-btn {
+  background: none;
+  color: var(--mid-gray);
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--light-gray);
+  transition: var(--transition);
+}
+
+.chatbot-direct-btn:hover {
+  background: var(--light-gray);
+  color: var(--dark);
+}
+
+@media (max-width: 768px) {
+  .homepage-header h1 {
+    font-size: 2.5rem;
+  }
+  .domain-cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .domain-card {
+    width: 100%;
+    max-width: 360px;
+  }
+}

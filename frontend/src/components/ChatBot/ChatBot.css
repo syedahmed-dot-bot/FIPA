@@ -1,0 +1,113 @@
+.chatbot {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--off-white);
+}
+
+.chatbot-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 40px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.chatbot-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 32px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message {
+  max-width: 75%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.message.user {
+  background: var(--primary);
+  color: var(--white);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+  background: var(--white);
+  color: var(--dark);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow);
+}
+
+.chatbot-input {
+  padding: 20px 40px;
+  background: var(--white);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.chatbot-input input {
+  flex: 1;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--off-white);
+  color: var(--dark);
+  transition: var(--transition);
+}
+
+.chatbot-input input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  background: var(--white);
+}
+
+.chatbot-input button {
+  padding: 14px 28px;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.chatbot-input button:hover {
+  background: var(--primary-light);
+}
+
+@media (max-width: 768px) {
+  .chatbot-header {
+    padding: 16px 20px;
+  }
+  .chatbot-input {
+    padding: 16px 20px;
+  }
+  .message {
+    max-width: 90%;
+  }
+}
