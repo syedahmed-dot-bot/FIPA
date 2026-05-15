@@ -29,10 +29,6 @@ embeddings = HuggingFaceEmbeddings(
 client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 model_name = os.getenv("MODEL_NAME")
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
-
 class WorkflowState(TypedDict):
     domain: str                                         #drilling or refinery
     keyword: str                                        #equipment keyword from the engineer
