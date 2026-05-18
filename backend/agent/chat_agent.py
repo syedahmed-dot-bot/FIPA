@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 
 from anthropic import Anthropic
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
 
 
 load_dotenv()
@@ -39,10 +39,9 @@ def run_chat_agent(message: str, domain: str, conversation_history: list) -> dic
         persist_directory=CHROMA_PATH
     )
 
-    results_with_scores = vectorstore.similarity_search_with_relevance_scores(message, k=5)
+    results_with_scores = vectorstore.similarity_search_with_score(message, k=5)
     retrieved_chunks = [doc.page_content for doc, score in results_with_scores]
-    scores = [score for doc, score in results_with_scores]
-    confidence = round(sum(scores) / len(scores), 2) if scores else 0.0
+    
 
     guidelines_store = Chroma(
         collection_name=COLLECTION_MAP["guidelines"],
@@ -54,7 +53,7 @@ def run_chat_agent(message: str, domain: str, conversation_history: list) -> dic
     chunks_text = "\n\n".join(retrieved_chunks)
     guidelines_text = "\n\n".join(guidelines_chunks)
 
-    prompt = f"""
+    prompt = f""" Domain selected: {domain}
     Engineer Query: {message}
 
     Relevant Equipment Documentation:
@@ -74,10 +73,32 @@ def run_chat_agent(message: str, domain: str, conversation_history: list) -> dic
     response = client.messages.create(
         model=model_name,
         max_tokens=1000,
-        temperature=0.1,
+        temperature=0.3,
         system="You are an expert diagnostic assistant for oil and gas field engineers. Be concise and precise.",
         messages=conversation_history + [{"role": "user", "content": prompt}]
     )
+
+    confidence_prompt = f"""
+    On a scale of 0 to 100, how confident are you that your response accurately answers this query based on the provided documentation?
+
+    Query: {prompt if 'prompt' in locals() else message}
+    Response summary: {conversation_history[:200]}
+
+    Reply with ONLY a number between 0 and 100. Nothing else.
+    """
+
+    confidence_response = client.messages.create(
+        model=model_name,
+        max_tokens=10,
+        temperature=0.0,
+        messages=[{"role": "user", "content": confidence_prompt}]
+    )
+
+    try:
+        confidence = float(confidence_response.content[0].text.strip())
+        confidence = max(0.0, min(100.0, confidence))
+    except:
+        confidence = 50.0
 
     return {
         "response": response.content[0].text.strip(),
