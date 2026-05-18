@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END, START
 from anthropic import Anthropic
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
 
 from typing import TypedDict, Annotated
 
@@ -79,9 +79,19 @@ def generate_prompts(state: WorkflowState) -> dict:
 
     {failure_modes_text}
 
-    Generate exactly 5 troubleshooting prompts ranked by severity — most critical first.
-    Each prompt should be a clear, concise question an engineer would ask.
-    Format: one prompt per line, no numbering, no bullet points.
+    Generate exactly 5 failure mode statements ranked by severity — most critical first.
+    Each statement should describe a specific problem the engineer is experiencing.
+    Write from the engineer's perspective — what they are observing, not what you are asking them.
+    Format: one statement per line, no numbering, no bullet points.
+
+    Examples of correct format:
+    - Pump losing prime with sudden loss of discharge pressure
+    - Relief valve drifting above setpoint during operation
+    - Excessive vibration detected in bearing assembly
+
+    Examples of WRONG format:
+    - Have you checked the relief valve?
+    - What is the current pressure reading?
     """
     
     response = client.messages.create(
