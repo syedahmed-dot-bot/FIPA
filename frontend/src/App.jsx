@@ -21,7 +21,8 @@ function App() {
         />;
       case "chatbot":
         return <ChatBot 
-          setCurrentPage={setCurrentPage}
+          setCurrentPage={setCurrentPage} 
+          domain={selectedDomain} 
         />;
       default:
         return <HomePage 
