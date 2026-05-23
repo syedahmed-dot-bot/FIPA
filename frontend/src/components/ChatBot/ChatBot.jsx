@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./ChatBot.css";
+import ReactMarkdown from 'react-markdown';
 
-function ChatBot({ setCurrentPage }) {
+function ChatBot({ setCurrentPage, domain }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,13 @@ function ChatBot({ setCurrentPage }) {
       const res = await fetch("http://localhost:8000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input })
+        body: JSON.stringify(
+          { 
+            message: input,
+            domain: domain,
+            conversation_history: []
+          }
+        )
       });
       const data = await res.json();
       setMessages(prev => [...prev, { role: "assistant", content: data.response }]);
@@ -43,7 +50,7 @@ function ChatBot({ setCurrentPage }) {
       <div className="chatbot-messages">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
-            <p>{msg.content}</p>
+            <ReactMarkdown>{msg.content}</ReactMarkdown>
           </div>
         ))}
         {loading && <div className="message assistant"><p>Thinking...</p></div>}
