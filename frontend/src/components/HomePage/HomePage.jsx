@@ -27,12 +27,6 @@ function HomePage({ setCurrentPage, setSelectedDomain }) {
           onClick={() => handleDomainSelect("refinery")}
         />
       </div>
-      <button
-        className="chatbot-direct-btn"
-        onClick={() => setCurrentPage("chatbot")}
-      >
-        Go directly to Free Chat
-      </button>
     </div>
   );
 }
