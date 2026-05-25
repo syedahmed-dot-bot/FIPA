@@ -1,4 +1,7 @@
 import os
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ["HF_DATASETS_OFFLINE"] = "1"
+
 from dotenv import load_dotenv
 
 from langchain_community.document_loaders import PyPDFDirectoryLoader
@@ -20,8 +23,11 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=200
 )
 
+CACHE_DIR = os.path.join(BASE_DIR, "data", "embeddings_cache")
+
 embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    cache_folder=CACHE_DIR
 )
 
 def ingest_drilling_documents():
