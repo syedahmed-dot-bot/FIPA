@@ -11,3 +11,5 @@ frontend/dist/
 
 backend/data/chroma/*
 !backend/data/chroma/.gitkeep
+
+backend/data/embeddings_cache/
