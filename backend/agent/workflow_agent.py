@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 
@@ -22,12 +23,16 @@ COLLECTION_MAP = {
     "refinery": "refinery_docs"
 }
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
+CACHE_DIR = os.path.join(BASE_DIR, "data", "embeddings_cache")
 
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    cache_folder=CACHE_DIR
+)
 client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 model_name = os.getenv("MODEL_NAME")
+ollama_model = os.getenv("OLLAMA_MODEL")
+
 
 class WorkflowState(TypedDict):
     domain: str                                         #drilling or refinery
@@ -69,7 +74,8 @@ def extract_failure_modes(state: WorkflowState) -> dict:
         messages=[{"role": "user", "content": prompt}]
     )
     failure_modes = response.content[0].text.strip().split("\n")
-    return {"failure_modes": failure_modes}
+
+    return {"failure_modes": [f for f in failure_modes if f.strip()]}
 
 def generate_prompts(state: WorkflowState) -> dict:
     failure_modes_text = "\n".join(state["failure_modes"])
@@ -93,7 +99,7 @@ def generate_prompts(state: WorkflowState) -> dict:
     - Have you checked the relief valve?
     - What is the current pressure reading?
     """
-    
+
     response = client.messages.create(
         model=model_name,
         max_tokens=500,
