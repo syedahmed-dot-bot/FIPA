@@ -1,10 +1,10 @@
 function ConfidenceScore({ confidence }) {
-  const percentage = Math.round(confidence * 100);
-  const level = percentage >= 75 ? "high" : percentage >= 50 ? "medium" : "low";
+  const score = Math.round(confidence);
+  const level = score >= 7 ? "high" : score >= 5 ? "medium" : "low";
 
   return (
     <div className={`confidence-score ${level}`}>
-      <span>Confidence: {percentage}%</span>
+      <span>Confidence: {score}/10</span>
       {level === "low" && (
         <span className="confidence-warning">
           ⚠ Low confidence — verify with senior engineer
