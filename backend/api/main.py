@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
+import traceback
 
 from agent.workflow_agent import run_workflow_agent
 from agent.query import run_query_pipeline
@@ -14,7 +15,7 @@ app = FastAPI(title="FIPA API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_URL", "http://localhost:5173")],
+    allow_origins=[os.getenv("FRONTEND_URL", "http://127.0.0.1:5173")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -72,4 +73,5 @@ def chat(request: ChatRequest):
         result = run_chat_agent(request.message, request.domain, request.conversation_history)
         return ChatResponse(**result)
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
