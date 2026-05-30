@@ -1,3 +1,6 @@
+import React from "react";
+import ReactMarkdown from "react-markdown";
+
 function PromptList({ prompts, onPromptSelect, selectedPrompt }) {
   return (
     <div className="prompt-list">
