@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: fipa-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: MODEL_NAME
+        sync: false
+      - key: CHROMA_PATH
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: TRANSFORMERS_OFFLINE
+        value: "1"
+      - key: HF_DATASETS_OFFLINE
+        value: "1"
+      - key:PYTHONPATH: 
+        value: /opt/render/project/src
