@@ -5,9 +5,9 @@ import os
 from dotenv import load_dotenv
 import traceback
 
-from agent.workflow_agent import run_workflow_agent
-from agent.query import run_query_pipeline
-from agent.chat_agent import run_chat_agent
+from backend.agent.workflow_agent import run_workflow_agent
+from backend.agent.query import run_query_pipeline
+from backend.agent.chat_agent import run_chat_agent
 
 load_dotenv()
 
