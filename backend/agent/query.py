@@ -1,32 +1,30 @@
 import os
+
 from dotenv import load_dotenv
+from langchain_pinecone import PineconeVectorStore, PineconeEmbeddings
+from pinecone import Pinecone
+
 from anthropic import Anthropic
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
 
 load_dotenv()
 
-os.environ["TRANSFORMERS_OFFLINE"] = "1"
-os.environ["HF_DATASETS_OFFLINE"] = "1"
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CHROMA_PATH = os.path.join(BASE_DIR, "data", "chroma")
 CACHE_DIR = os.path.join(BASE_DIR, "data", "embeddings_cache")
 
 COLLECTION_MAP = {
-    "drilling": "drilling_docs",
-    "refinery": "refinery_docs",
-    "guidelines": "guidelines_docs"
+    "drilling": "drilling-docs",
+    "refinery": "refinery-docs",
+    "guidelines": "guidelines-docs"
 }
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    cache_folder=CACHE_DIR
+embeddings = PineconeEmbeddings(
+    model="multilingual-e5-large",
+    pinecone_api_key=os.getenv("PINECONE_API_KEY")
 )
-
 client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 model_name = os.getenv("MODEL_NAME")
-
+index_name = os.getenv("PINECONE_INDEX")
 
 def run_query_pipeline(domain: str, keyword: str, prompt: str) -> dict:
     collection_name = COLLECTION_MAP.get(domain)
@@ -34,20 +32,20 @@ def run_query_pipeline(domain: str, keyword: str, prompt: str) -> dict:
         raise ValueError(f"Unsupported domain: {domain}")
 
     try:
-        vectorstore = Chroma(
-            collection_name=collection_name,
-            embedding_function=embeddings,
-            persist_directory=CHROMA_PATH
+        vectorstore = PineconeVectorStore(
+            index_name=index_name,
+            embedding=embeddings,
+            namespace=collection_name
         )
 
         query = f"{keyword} {prompt}"
         results_with_scores = vectorstore.similarity_search_with_score(query, k=5)
         retrieved_chunks = [doc.page_content for doc, score in results_with_scores]
 
-        guidelines_store = Chroma(
-            collection_name=COLLECTION_MAP["guidelines"],
-            embedding_function=embeddings,
-            persist_directory=CHROMA_PATH
+        guidelines_store = PineconeVectorStore(
+            index_name=index_name,
+            embedding=embeddings,
+            namespace=COLLECTION_MAP["guidelines"]
         )
         guidelines_chunks = [doc.page_content for doc in guidelines_store.similarity_search(prompt, k=2)]
 
