@@ -9,13 +9,11 @@ services:
         sync: false
       - key: MODEL_NAME
         sync: false
-      - key: CHROMA_PATH
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_INDEX
         sync: false
       - key: FRONTEND_URL
         sync: false
-      - key: TRANSFORMERS_OFFLINE
-        value: "1"
-      - key: HF_DATASETS_OFFLINE
-        value: "1"
-      - key:PYTHONPATH: 
+      - key: PYTHONPATH
         value: /opt/render/project/src
