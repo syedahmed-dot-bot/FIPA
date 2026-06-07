@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from langchain_pinecone import PineconeVectorStore, PineconeEmbeddings
+from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 
 from anthropic import Anthropic
@@ -18,9 +18,12 @@ COLLECTION_MAP = {
     "guidelines": "guidelines-docs"
 }
 
-embeddings = PineconeEmbeddings(
-    model="multilingual-e5-large",
-    pinecone_api_key=os.getenv("PINECONE_API_KEY")
+
+CACHE_DIR = os.path.join(BASE_DIR, "data", "embeddings_cache")
+
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    cache_folder=CACHE_DIR
 )
 
 

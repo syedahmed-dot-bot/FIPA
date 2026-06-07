@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from langchain_pinecone import PineconeVectorStore, PineconeEmbeddings
+from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
 
 load_dotenv()
@@ -21,9 +21,13 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=200
 )
 
-embeddings = PineconeEmbeddings(
-    model="multilingual-e5-large",
-    pinecone_api_key=os.getenv("PINECONE_API_KEY")
+from langchain_huggingface import HuggingFaceEmbeddings
+
+CACHE_DIR = os.path.join(BASE_DIR, "data", "embeddings_cache")
+
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    cache_folder=CACHE_DIR
 )
 
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
