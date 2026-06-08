@@ -19,7 +19,7 @@ function GuidedWorkflow({ selectedDomain, setCurrentPage }) {
     setLoadingPrompts(true);
 
     try {
-      const res = await fetch("http://localhost:8000/generate-prompts", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/generate-prompts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -44,7 +44,7 @@ function GuidedWorkflow({ selectedDomain, setCurrentPage }) {
     setConfidence(null);
 
     try {
-      const res = await fetch("http://localhost:8000/query", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
